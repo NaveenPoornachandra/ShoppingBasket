@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.mail.Message;
@@ -28,6 +29,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.shoppingbasket.service.SystemManagementService;
 
 /**
  *
@@ -39,12 +41,18 @@ public class MailerBean {
 
     @Resource(name = "mail/shoppingBasket")
     private Session session;
+    
+    @EJB
+    SystemManagementService systemService;
 
     private static final Logger logger = Logger.getLogger(MailerBean.class.getName());
 
     @Asynchronous
     public Future<String> sendMessage(String subject, String emailAddr, String messageBody) {
         String status;
+        if(!systemService.isMailEnabled()){
+           return new AsyncResult<>("Mail service not enabled!");
+        }
         try {
             Message message = new MimeMessage(session);
             message.setFrom();
