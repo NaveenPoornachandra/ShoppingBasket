@@ -7,6 +7,10 @@ package org.shoppingbasket.managedbeans.flow;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.event.AbortProcessingException;
@@ -123,10 +127,14 @@ public class PaymentFlow implements Serializable {
     }
 
     public String createOrder(IPayment payment) {
-        IOrder order = orderService.createOrder(this.getUser(), this.cart.getBasket(), payment);
-        this.cart.setOrder(order);
+        Future<IOrder> result = orderService.createOrder(this.getUser(), this.cart.getBasket(), payment);
+        try {
+            this.cart.setOrder(result.get());
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(PaymentFlow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         service.updatePayment(payment);
-        return "payment1a";
+        return "confirmation";
     }
 
     public void paymentChange(ValueChangeEvent event) throws AbortProcessingException {

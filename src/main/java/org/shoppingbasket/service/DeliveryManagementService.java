@@ -41,18 +41,18 @@ public class DeliveryManagementService {
         return addressDAO.findWithNamedQuery("Address.ByUserName", params);
     }
     
-    public DeliveryAddress getUserDeliveryAddress(String userName){
+    public List<ShoppingUserAddress> getUserDeliveryAddress(String userName){
         Map<String,Object> params = new HashMap<>();
-        params.put("uname", userName);
+        params.put("uname", userName); 
         params.put("addressType", AddressType.DELIVERY);
-        return (DeliveryAddress) addressDAO.findWithNamedQuery("Address.ByUserNameType", params);
+        return addressDAO.findWithNamedQuery("Address.ByUserNameType", params);
     }
     
-    public PersonalAddress getUserPersonalAddress(String userName){
+    public List<ShoppingUserAddress> getUserPersonalAddress(String userName){
         Map<String,Object> params = new HashMap<>();
         params.put("uname", userName);
         params.put("addressType", AddressType.PERSONAL);
-        return (PersonalAddress) addressDAO.findWithNamedQuery("Address.ByUserNameType", params);
+        return addressDAO.findWithNamedQuery("Address.ByUserNameType", params);
     }
     
     public void createDeliveryAddress(DeliveryAddress delivery,String userName){

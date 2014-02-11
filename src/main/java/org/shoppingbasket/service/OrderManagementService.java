@@ -11,10 +11,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
@@ -42,6 +49,7 @@ import org.shoppingbasket.jms.SubmitOrderMsgService;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class OrderManagementService {
 
     @Inject
@@ -68,8 +76,12 @@ public class OrderManagementService {
 
     @EJB
     DeliveryProcessDAO deliveryProcessDAO;
-
-    public IOrder createOrder(UserEntity user, IBasket basket, IPayment payment) {
+    
+    @EJB
+    MailManagementService mailService;
+    
+    @Asynchronous
+    public Future<IOrder> createOrder(UserEntity user, IBasket basket, IPayment payment) {
         IOrder order = new IOrder();
         logger.log(Level.INFO, "Creating the Order : ");
         Calendar cal = Calendar.getInstance();
@@ -87,7 +99,8 @@ public class OrderManagementService {
         order.setStatus(statusDAO.findWithNamedQuery("IStatus.ByStatus", params).get(0));
         orderDAO.create(order);
         payment.setIorder(order);
-        return order;
+        mailService.sendOrderConfirmation(order);
+        return new AsyncResult<>(order);
     }
 
     public void updateOrder(IOrder order) {
@@ -110,7 +123,8 @@ public class OrderManagementService {
         order.setStatus(statusDAO.findWithNamedQuery("IStatus.ByStatus", params).get(0));
         orderDAO.update(order);
     }
-
+    
+    
     public IOrder processOrder(IOrder order) {
         logger.log(Level.INFO, "Processing the Order : ".concat(String.valueOf(order.getId())));
         Map<String, Object> params = new HashMap<>();
@@ -121,7 +135,8 @@ public class OrderManagementService {
         return order;
 
     }
-
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void processStage(IOrder order) {
         int ordinal = order.getProcessStage().ordinal();
         int min = Integer.MAX_VALUE;
@@ -146,8 +161,10 @@ public class OrderManagementService {
             }
         }
         order.setOrderProcess(orderProcessTmp);
+        mailService.sendProcessingMail(orderProcessTmp.getUser(), order);
     }
-
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void processDelivery(IOrder order) {
         int ordinal = order.getDeliveryStage().ordinal();
         int min = Integer.MAX_VALUE;
@@ -169,6 +186,7 @@ public class OrderManagementService {
             }
         }
         order.setOrderDelivery(deliveryProcessTmp);
+         mailService.sendDeliveryMail(deliveryProcessTmp.getUser(), order);
     }
 
     public IOrder deliverOrder(IOrder order) {

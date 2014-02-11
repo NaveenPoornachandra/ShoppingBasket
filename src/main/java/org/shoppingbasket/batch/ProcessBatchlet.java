@@ -17,6 +17,7 @@ import org.shoppingbasket.entity.SystemMessage;
 import org.shoppingbasket.entity.UserEntity;
 import org.shoppingbasket.entity.enums.MessageType;
 import org.shoppingbasket.service.AdminManagementService;
+import org.shoppingbasket.service.MailManagementService;
 import org.shoppingbasket.service.MessageManagementService;
 import org.shoppingbasket.service.OrderManagementService;
 
@@ -39,6 +40,9 @@ public class ProcessBatchlet extends AbstractBatchlet {
 
     @EJB
     AdminManagementService adminService;
+    
+    @EJB
+    MailManagementService messageService;
 
     @Override
     public String process() throws Exception {
@@ -58,6 +62,9 @@ public class ProcessBatchlet extends AbstractBatchlet {
                     message.setMsgRead(!messageBuffer.toString().equalsIgnoreCase(message.getDescription()) && message.getMsgRead());
                     message.setDescription(messageBuffer.toString());
                     msgService.updateMessage(message);
+                    if(message.getMsgRead()){
+                        messageService.sendMailRemainder(pocUser, message.getDescription());
+                    }
                 } else {
                     msgService.addMessage(pocUser, messageBuffer.toString(), MessageType.ORDER_PROCESS);
                 }

@@ -63,6 +63,7 @@ public class ShoppingCartManagementService {
 
     public void saveBasket(IBasket basket) {
         basket.setUpdateDate(new Date());
+        Set<Item> items = basket.getBitems();
         if (basket.getId() == null) {
             basket.setCreateDate(new Date());
             cartDAO.create(basket);
@@ -70,11 +71,12 @@ public class ShoppingCartManagementService {
             cartDAO.update(basket);
         }
         basket.setUpdateDate(new Date());
-        for (Item item : basket.getBitems()) {
+        for (Item item : items) {
             item.setIbasket(basket);
             item.setIquantity(item.getIquantity()-1);
             itemDAO.update(item);
         }
+        basket.setBitems(items);
     }
 
     public List<IBasket> loadUserBaskets(String userName) {
