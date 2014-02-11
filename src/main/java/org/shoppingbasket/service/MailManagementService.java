@@ -40,16 +40,18 @@ public class MailManagementService {
     public void sendProcessingMail(UserEntity user, IOrder order) {
         logger.log(Level.INFO, "Sending processing mail to:".concat(user.getId()));
         StringBuilder messageBody = new StringBuilder();
-        messageBody.append("You gave order with id :").append(order.getId().toString());
-        mailerBean.sendMessage("Importent! Order need to be processed", user.getUemail(), messageBody.toString());
+        messageBody.append("You have order with id ").append(order.getId().toString());
+        messageBody.append("to be delivered.");
+        mailerBean.sendMessage("Importent: Order need to be processed.", user.getUemail(), messageBody.toString());
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void sendDeliveryMail(UserEntity user, IOrder order) {
         logger.log(Level.INFO, "Sending delivering mail to:".concat(user.getId()));
         StringBuilder messageBody = new StringBuilder();
-        messageBody.append("You gave order with id :").append(order.getId().toString());
-        mailerBean.sendMessage("Importent! Order need to be delivered", user.getUemail(), messageBody.toString());
+        messageBody.append("You have order with id ").append(order.getId().toString());
+        messageBody.append("to be processed.");
+        mailerBean.sendMessage("Importent: Order need to be delivered.", user.getUemail(), messageBody.toString());
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -62,7 +64,7 @@ public class MailManagementService {
         logger.log(Level.INFO, "Sending mail for Order confirmation :".concat(order.getIowner().getId()));
         StringBuilder message = new StringBuilder();
         ShoppingUserAddress address = deliveryService.getUserDeliveryAddress(order.getIowner().getId()).get(0);
-        message.append("Your order has been placed successfully.")
+        message.append("Your order has been placed successfully. ")
                 .append("Please find the order number for your future references (")
                 .append(order.getId()).append(")\n")
                 .append("\n Items ordered are as follows : \n");
@@ -70,8 +72,7 @@ public class MailManagementService {
             message.append(item.getIname())
                     .append("\n");
         }
-
-        message.append("\n Please confirm your delivery address which is mentioned below;\n")
+        message.append("\n Please confirm your delivery address which is mentioned below:\n")
                 .append(address.getDnum())
                 .append("\n")
                 .append(address.getLine1())
