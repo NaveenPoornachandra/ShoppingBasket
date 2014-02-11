@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/adminTemplate.xhtml">
+    <ui:define name="content">
+        <h:form prependId="false">
+            <h:outputText rendered="#{adminFlow.itemList.size() == 0}">
+                No Items available
+            </h:outputText>
+            <h:panelGrid columns="3" rendered="#{adminFlow.itemList.size()>0}">
+                <ui:repeat value="#{adminFlow.itemList}" var="item">
+                    <ui:repeat value="#{adminFlow.itemList}" var="item">
+                        <h:outputText value="#{item.iname}"/>
+                        <h:commandButton value="Edit"/>
+                    </ui:repeat>
+                </ui:repeat>
+            </h:panelGrid>
+        </h:form>
+        <h:form prependId="false" enctype="multipart/form-data">
+            Create Items
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Item Name" for="itemName"/>
+                <h:inputText id="itemName" value="#{adminFlow.bean.item.iname}"/>
+                
+                <h:outputLabel value="Item Image" for="itemImage"/>
+                <h:inputFile id="itemImage" value="#{adminFlow.itemImage}"/>
+                
+                <h:outputLabel value="Item Quantity" for="itemQuantity"/>
+                <h:inputText id="itemQnty" value="#{adminFlow.bean.item.iquantity}"/>
+                
+                <h:outputLabel value="Item Enabled" for="itemEnabled"/>
+                <h:selectBooleanCheckbox id="assetPrimary" value="#{adminFlow.bean.item.ienabled}"/>
+            </h:panelGrid>
+            Map Assets
+            <h:panelGrid id="assetsGrid" columns="2">
+                <h:outputLabel value="Assets Name" for="assetsName"/>
+                <h:selectManyMenu hideNoSelectionOption="true" id="subscriptions" value="#{adminFlow.bean.assetMapId}" required="true">
+                    <f:selectItems value="#{adminFlow.assetsList}" var="assets" itemValue="#{assets.id}" itemLabel="#{assets.assetsName}"/>
+                </h:selectManyMenu>
+            </h:panelGrid>
+            <h:commandButton value="Add Item" action="#{adminFlow.addItem()}"/>
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
+                <h:commandLink value="Manage Admin" action="admin"/>
+                <h:commandLink value="Manage Assets" action="#{adminFlow.getAllAssets()}">
+                    <f:actionListener type="org.shoppingbasket.jsf.listener.AdminListener"/>
+                </h:commandLink>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

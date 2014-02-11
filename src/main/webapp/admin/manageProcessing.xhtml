@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="../templates/adminTemplate.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <h:selectOneListbox value="#{adminFlow.processingType}" onclick="submit()" valueChangeListener="#{adminFlow.processingTypeChange}">
+                <f:selectItem itemValue="processing" itemLabel="Processing Users"/>
+                <f:selectItem itemValue="delivery" itemLabel="Delivery Users"/>
+            </h:selectOneListbox>
+        </h:form>
+        <h:form prependId="false" rendered="#{adminFlow.processingType=='processing'}">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="User Name" for="userName"/>
+                <h:inputText id="userName" value="#{adminFlow.processing.userName}"/>
+
+                <h:outputLabel value="Processing Stage" for="procStage"/>
+                <h:selectManyMenu hideNoSelectionOption="true" id="procStage" value="#{adminFlow.processing.procStageSelects}" required="true">
+                    <f:selectItems value="#{adminFlow.processing.procStages}"/>
+                </h:selectManyMenu>
+
+                <h:commandButton value="Add Users" action="#{adminFlow.addProcessingUser()}"/>
+
+                <h:dataTable id="pusers" value="#{adminFlow.processingUsers}" var="user"
+                             styleClass="order-table" headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="User Name"/>
+                        </f:facet>
+                        <h:outputText id="pUserName" value="#{user.id}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Remove"/>
+                        </f:facet>
+                        <h:commandLink value="Remove" action="#{adminFlow.remProcessingUser(user.id)}"/>
+                    </h:column>
+
+                </h:dataTable>
+            </h:panelGrid>
+        </h:form>
+
+        <h:form prependId="false" rendered="#{adminFlow.processingType=='delivery'}">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="User Name" for="userName"/>
+                <h:inputText id="userName2" value="#{adminFlow.processing.userName}"/>
+                
+                <h:outputLabel value="Delivery Stage" for="delStage"/>
+                <h:selectManyMenu hideNoSelectionOption="true" id="delStage" value="#{adminFlow.processing.delStageSelects}" required="true">
+                    <f:selectItems value="#{adminFlow.processing.delStages}"/>
+                </h:selectManyMenu>
+
+                <h:commandButton value="Add Users" action="#{adminFlow.addDeliveryUser()}"/>
+
+                <h:dataTable id="dusers" value="#{adminFlow.deliveryUsers}" var="user"
+                             styleClass="order-table" headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="User Name"/>
+                        </f:facet>
+                        <h:outputText id="dUserName" value="#{user.id}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Remove"/>
+                        </f:facet>
+                        <h:commandLink value="Remove" action="#{adminFlow.remDeliveryUser(user.id)}"/>
+                    </h:column>
+
+                </h:dataTable>
+                <h:commandLink value="Back to Admin" action="admin"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="../templates/shoppingTemplate.xhtml">
+    <ui:define name="content">
+        <h:form prependId="false">
+            <h:panelGrid columns="2">
+                <h:dataTable id="orders" value="#{orderFlow.orderDetails.orderList}" var="order"
+                             styleClass="order-table" headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Order Number"/>
+                        </f:facet>
+                        <h:outputText id="orderId" value="#{order.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Order Status"/>
+                        </f:facet>
+                        <h:outputText id="orderStatus" value="#{order.status.description}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Created Date"/>
+                        </f:facet>
+                        <h:outputText id="createdDate" value="#{order.ibasket.createDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="More Details"/>
+                        </f:facet>
+                        <h:commandButton id="more" value="Go" action="#{orderFlow.getOrderDetails(order.id)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGrid>
+            <h:commandButton value="Continue Shopping" action="shopping"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

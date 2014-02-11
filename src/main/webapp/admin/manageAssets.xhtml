@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="../templates/adminTemplate.xhtml">
+    <ui:define name="content">
+
+        <h:form prependId="false">
+            <h:outputText rendered="#{adminFlow.assetsList.size() == 0}">
+                No Assets available
+            </h:outputText>
+            <h:panelGrid columns="3" rendered="#{adminFlow.assetsList.size()>0}">
+                <ui:repeat value="#{adminFlow.assetsList}" var="item">
+                    <h:outputText value="#{item.assetsName}"/>
+                    <h:commandButton value="Edit"/>
+                </ui:repeat>
+            </h:panelGrid>
+        </h:form>
+        <h:form prependId="false">
+            Create Assets
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Assets Name" for="assetName"/>
+                <h:inputText id="assetName" value="#{adminFlow.bean.assets.assetsName}"/>
+            </h:panelGrid>
+            Map Asset
+            <h:panelGrid id="assetGrid" columns="2">
+                <h:outputLabel value="Assets Name" for="assetsName"/>
+                <h:selectManyMenu hideNoSelectionOption="true" id="subscriptions" value="#{adminFlow.bean.assetMapId}" required="true">
+                    <f:selectItems value="#{adminFlow.assetList}" var="asset" itemValue="#{asset.id}" itemLabel="#{asset.assetName}"/>
+                </h:selectManyMenu>
+            </h:panelGrid>
+            <h:commandButton value="Add Assets" action="#{adminFlow.addAssets()}"/>
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="1">
+                <h:commandLink value="Manage Item" action="#{adminFlow.getAllItems()}"/>
+                <h:commandLink value="Manage Asset" action="#{adminFlow.getAllAsset()}"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

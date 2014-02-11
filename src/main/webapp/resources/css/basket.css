@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 29, 2014, 4:14:34 PM
+    Author     : Naveen_P08
+*/
+
+.order-table{   
+	border-collapse:collapse;
+        margin: 10px 10px 25px 10px;
+}
+ 
+.order-table-header{
+	text-align:center;
+	background:none repeat scroll 0 0 #E5E5E5;
+	border-bottom:1px solid #BBBBBB;
+	padding:10px;
+}
+ 
+.order-table-odd-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #FFFFFF;
+	border-top:1px solid #BBBBBB;
+        padding: 10px;
+}
+ 
+.msg-table-even-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #00FFFF;
+	border-top:1px solid #BBBBBB;
+        padding: 10px;
+}
+
+.msg-table-odd-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #FF00FF;
+	border-top:1px solid #BBBBBB;
+        padding: 10px;
+}
+ 
+.order-table-even-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #F9F9F9;
+	border-top:1px solid #BBBBBB;
+        padding: 10px;
+}

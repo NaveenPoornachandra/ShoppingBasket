@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML 5 Learning</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="js/libs/jquery/jquery.js"></script>
+        <script src="js/exam.js"></script>
+        <link rel="stylesheet" href="css/html5.css">
+    </head>
+    <body>
+        <div>HTML MS Exam</div>
+        <br>Question 1...............<br>
+        <button onclick="validateEmail()"> Validate email </button>
+        <button onclick="validateSSN()"> Validate SSN </button>
+        <button onclick="validateDate()"> Validate Date </button>
+        <br>Question 2...........................<br>
+        <input name="age" id="age"/>
+        <button onclick="validateAge()"> Validate Age </button>
+        <br>Question 3...........................<br>
+        <form action="#">
+            <input name="email" id="email" type="email"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <br>Question 4...........................<br>
+        <form name="decodeForm" action="json/decode.json">
+            <input name="emailStr" id="emailStr" type="email"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <br>Question 4...........................<br>
+        <form name="decodeForm" action="json/decode.json">
+            <input name="emailStr" id="emailStr" type="email"/>
+            <input type="button" value="submit"/>
+        </form>
+        <br>Question 5...........................<br>
+        <form name="ajaxForm" action="http://localhost:8383/ShoppingBasket/JSONServlet">
+            <input name="ajaxName" id="ajaxId" type="text"/>
+            <input type="button" value="submit" onclick="submitAjax()"/>
+        </form>
+        <br>Question 6...........................<br>
+        <form name="uploadForm">
+            <input name="ajaxUpload" id="ajaxUpload" type="file"/>
+            <input type="button" value="submit" onclick="uploadAjax()"/>
+            <progress max="100" value="20" id="ajaxProgress"></progress>
+        </form>
+        <br>Question 7...........................<br>
+        <form name="uploadForm">
+            <label id="q7"></label>
+            <input type="button" value="submit" onclick="changeLabel()"/>
+        </form>
+        <br>Question 8...........................<br>
+        <form name="customResponse">
+            <input type="button" value="submit" onclick="customeResponseAjax()"/>
+        </form>
+        <br>Question 9...........................<br>
+        <form name="requiredText">
+            <input name="txt1" id="txt1" type="text" required/>
+            <input type="submit" value="submit"/>
+        </form>
+        <br>Question 10...........................<br>
+        <form name="rangeText">
+            <input name="range" id="range" type="range" min="18" max="90" step=5 value="37" required/>
+            <input type="button" value="Get Range" onclick="alert($('#range').val());"/>
+            DOB <input name="dob" id="dob" type="date" required="true" pattern="^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$"/>
+            Birthday (date and time): <input type="datetime" name="bdaytime">
+            E-mail: <input type="email" name="email">
+            Birthday (month and year): <input type="month" name="bdaymonth">
+            Quantity (between 1 and 5): <input type="number" name="quantity" min="1" max="5">
+            Search Google: <input type="search" name="googlesearch">
+            Telephone: <input type="tel" name="usrtel">
+            Select a time: <input type="time" name="usr_time">
+            Add your homepage: <input type="url" name="homepage">
+            Select a week: <input type="week" name="week_year">
+            <input type="submit" value="submit"/>
+        </form>
+        <br>Question 11...........................<br>
+        <form name="loadTemp">
+            <input type="button" value="Load Temp" onclick="loadTemperature();"/>
+        </form>
+        <br>Question 12...........................<br>
+        <form name="loadInheritance">
+            <input type="button" value="Load Temp" onclick="loadInheritence();"/>
+        </form>
+        <br>Question 13...........................<br>
+        <nav>
+            <a href="/html/">HTML</a> |
+            <a href="/css/">CSS</a> |
+            <a href="/js/">JavaScript</a> |
+            <a href="/jquery/">jQuery</a>
+        </nav>
+        <br>Question 14...........................<br>
+        <form name="airlinesForm">
+            <input name="destination" id="destination" type="text" required/>
+            <input type="button" value="submit" onclick="storeDestination()"/>
+        </form>
+        <br>Question 15...........................<br>
+        <figure>
+            <img src="img/macaque.jpg" id="image1" alt="Macaque in the trees">
+            <figcaption>This is my sample image.......</figcaption>
+        </figure>
+        <br>Question 16...........................<br>
+        <form name="loadExtension">
+            <input type="button" value="Load Extension" onclick="loadQuest()"/>
+            <input type="button" value="Load Apply" onclick="learnApply()"/>
+        </form>
+        <br>Question 17...........................<br>
+        <div id="dynamicInbox">
+            <input type="checkbox" id="myCheckbox" value="Add Dynamic" onclick="showInputBox('dynamicInbox')"/>
+        </div>
+        <br>Question 18...........................<br>
+        <canvas id="myCanvas" width="200" height="100"></canvas>
+        <canvas id="myCanvas1" width="200" height="100"></canvas>
+        <canvas id="myCanvas2" width="200" height="100"></canvas>
+        <canvas id="myCanvas3" width="200" height="100"></canvas>
+        <canvas id="myCanvas4" width="200" height="100"></canvas>
+        <canvas id="myCanvas5" width="200" height="100"></canvas>
+        <canvas id="myCanvas6" width="200" height="100"></canvas>
+        <br>Question 19...........................<br> 
+        <div style="border-color: black;border-width:thick ">
+            Logo:<br>
+            <div id="logo" style="width:10px;height: 30px; border:1px solid #acacac;">
+
+            </div>
+        </div>
+        <br>Question 20...........................<br>
+        Content
+        <div id='validate' style="width:100px;height: 300px; border:1px solid #acacac;display: initial">
+            Div
+        </div>
+        More content
+        <br>Question 21...........................<br>
+        <p>Count numbers: <output id="result"></output></p>
+        <button onclick="startWorker()">Start Worker</button> 
+        <button onclick="stopWorker()">Stop Worker</button>
+        <br>Question 22...........................<br>
+        <input type="button" id= "about" value="About" />
+        <br>Question 23...........................<br>
+        <input type="text" id='determine'/>
+        <input type="button" id= "determine" value="Determine" onclick="alert(determine($('#determine').val()))"/>
+        <br>Question 24...........................<br>
+        <input type="button" id= "determine2" value="Without Type Compare" onclick="determine2()" />
+        <br>Question 25...........................<br>
+        <input type="button" id= "error" value="Throw error" onclick="customError()" />
+        <br>Question 26...........................<br>
+
+        <div id="outerDiv" class="d1">1  <!-- the topmost -->
+            <div id="middleDiv" class="d2">2
+                <div id="innerDiv" class="d3">3 <!-- the innermost -->
+                </div> 
+            </div>
+        </div>
+
+        <br>Question 27...........................<br>
+        <input type="button" id= "Scope" value="Scope" onclick="scopeAjax()" />
+        <br>Question 31...........................<br>
+        <p class="boxShadow">
+            Hello My Name is Naveen, I am a Software engineer having 9 years of industry experience....
+        </p>
+        <div class="box">
+            Box Radius
+        </div>
+        <br>Question 32...........................<br>
+        <table>
+            <thead>
+                <th>Item</th>
+                <th>Input</th>
+                <th>Current</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>First Name</td>
+                    <td><input type="text"/></td>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <td>Last Name</td>
+                    <td><input type="text"/></td>
+                    <td></td>
+                </tr>
+            </tbody>
+    </table>
+    <br>Question 33...........................<br>
+    <div class="grid-class">
+        <div class="logo"></div>
+         <div class="page"></div>
+          <div class="bookmark"></div>
+           <div class="content"></div>
+            <div class="bottom"></div>
+    </div>
+</body>
+</html>

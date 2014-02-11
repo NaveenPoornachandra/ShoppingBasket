@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                template="/templates/authTemplate.xhtml">
+    <ui:define name="top">
+        <h2>
+            <h:outputText value="#{bundle.template_reg_header}"/>
+        </h2>
+        <h3>
+            <h:outputText value="#{bundle.registration_failed}" rendered="#{registrationController.rerror}"/>
+            <h:outputText value="#{bundle.registration_failed}" rendered="#{registrationController.rerror}"/>
+        </h3>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{bundle.label_username}" for="username" />
+                <h:inputText id="username" value="#{registrationController.user.uname}" required="true"/>
+
+                <h:outputLabel value="#{bundle.label_password}" for="password" />
+                <h:inputSecret id="password" value="#{registrationController.user.upassword}" required="true"/>
+
+                <h:outputLabel value="#{bundle.label_confirm_password}" for="cpassword" />
+                <h:inputSecret id="cpassword" value="#{registrationController.user.cpassword}" required="true">
+
+                </h:inputSecret>
+
+                <h:outputLabel value="#{bundle.label_email}" for="email" />
+                <h:inputText id="email" value="#{registrationController.user.uemail}" required="true"/>
+
+                <h:outputLabel value="#{bundle.label_dob}" for="dob" />
+                <h:inputText id="dob" value="#{registrationController.user.udob}" required="true">
+                    <f:convertDateTime pattern="MM-dd-yyyy"/>
+                </h:inputText>
+
+
+                <h:commandButton action="#{registrationController.registerUser()}" value="#{bundle.label_register}" rendered="#{!userController.logged}" />
+
+            </h:panelGrid>
+
+        </h:form>
+        <h:form>
+            <h:commandButton action="login" value="#{bundle.label_login}" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+

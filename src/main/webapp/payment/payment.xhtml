@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="../templates/paymentTemplate.xhtml">
+    <ui:define name="content">
+        #{paymentFlow.cart = flowScope.cart;paymentFlow.user = flowScope.user}
+        <h:form>
+            <h:selectOneListbox id="#{paymentFlow.cart.paymentType}" onclick="submit()" valueChangeListener="#{paymentFlow.paymentChange}">
+                <f:selectItem itemValue="cc" itemLabel="Credit Card"/>
+                <f:selectItem itemValue="db" itemLabel="Debit Card"/>
+                <f:selectItem itemValue="csh" itemLabel="Cash Payment"/>
+            </h:selectOneListbox>
+        </h:form>
+
+        <h:form id="ccForm" rendered="#{paymentFlow.cart.paymentType=='cc'}">
+            <h:outputText value="Payment through credit card"/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Name as per Credit Card" for="ccname" />
+                <h:inputText id="ccname" required="true" value="#{paymentFlow.cart.ccPayment.ccName}" />
+
+                <h:outputLabel value="Credit Card Number" for="ccnum" />
+                <h:inputText id="ccnum" required="true" value="#{paymentFlow.cart.ccPayment.ccNumber}" />
+
+                <h:outputLabel value="Credit Card Expiry date" for="ccdate" />
+                <h:inputText id="ccdate" required="true" value="#{paymentFlow.cart.ccPayment.ccExpiryDate}">
+                    <f:convertDateTime pattern="DD-MM-yyyy" />
+                </h:inputText>
+
+                <h:commandButton value="Make Credit Card payment" action="#{paymentFlow.payByCreditCard()}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:form id="dbForm" rendered="#{paymentFlow.cart.paymentType=='db'}">
+            <h:outputText value="Payment through debit card"/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Name as per Debit Card" for="dbname" />
+                <h:inputText id="dbname" required="true" value="#{paymentFlow.cart.dbPayment.dbName}" />
+
+                <h:outputLabel value="Debit Card Number" for="dbnum" />
+                <h:inputText id="dbnum" required="true" value="#{paymentFlow.cart.dbPayment.dbNumber}" />
+
+                <h:commandButton value="Make Credit Card payment" action="#{paymentFlow.payByDebitCard()}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:form id="cshForm" rendered="#{paymentFlow.cart.paymentType=='csh'}">
+            <h:outputText value="Payment through cash"/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Amount Payed" for="cshAmount" />
+                <h:inputText id="cshAmount" required="true" value="#{paymentFlow.cart.cshPayment.amount}" />
+
+                <h:commandButton value="Make Cash payment" action="#{paymentFlow.payByCash()}"/>
+            </h:panelGrid>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

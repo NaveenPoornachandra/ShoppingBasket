@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="../templates/userTemplate.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="1">
+                <h:commandLink value="Processing Order Queue" action="#{processFlowerFlow.loadUserProcOrders()}" rendered="#{request.isUserInRole('ORDER_PROCESS')}"/>
+                <h:commandLink value="Processing Delivery Queue" action="#{processFlow.loadUserDelevOrders()}" rendered="#{request.isUserInRole('ORDER_DELIVER')}"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

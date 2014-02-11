@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="../templates/adminTemplate.xhtml">
+    <ui:define name="content">
+        <h:form prependId="false">
+            <h:panelGrid columns="2">
+                <h:dataTable id="items" value="#{processFlow.deliveryOrders}" var="order"
+                             styleClass="order-table" headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Order Id"/>
+                        </f:facet>
+                        <h:outputText id="orderId" value="#{order.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Delivery Stage"/>
+                        </f:facet>
+                        <h:outputText id="orderStage" value="#{order.orderDelivery.deliveryStage}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Next Stage"/>
+                        </f:facet>
+                        <h:commandLink value="Submit" action="#{processFlow.deliveryStage(order.id)}"/>
+                    </h:column>
+
+                </h:dataTable>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
