@@ -41,7 +41,7 @@ public class MailManagementService {
         logger.log(Level.INFO, "Sending processing mail to:".concat(user.getId()));
         StringBuilder messageBody = new StringBuilder();
         messageBody.append("You have order with id ").append(order.getId().toString());
-        messageBody.append("to be delivered.");
+        messageBody.append(" to be processed.");
         mailerBean.sendMessage("Importent: Order need to be processed.", user.getUemail(), messageBody.toString());
     }
 
@@ -50,7 +50,7 @@ public class MailManagementService {
         logger.log(Level.INFO, "Sending delivering mail to:".concat(user.getId()));
         StringBuilder messageBody = new StringBuilder();
         messageBody.append("You have order with id ").append(order.getId().toString());
-        messageBody.append("to be processed.");
+        messageBody.append(" to be delivered.");
         mailerBean.sendMessage("Importent: Order need to be delivered.", user.getUemail(), messageBody.toString());
     }
 

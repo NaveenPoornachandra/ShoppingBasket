@@ -66,6 +66,10 @@ public class AdminManagementService {
     
     @EJB
     private DeliveryProcessDAO deliveryDAO;
+    
+    public UserEntity getAdminUser(){
+        return userDAO.find("Admin");
+    }
 
     public void registerUser(UserEntity user) {
         UserEntity regUser = userDAO.find(user.getId());

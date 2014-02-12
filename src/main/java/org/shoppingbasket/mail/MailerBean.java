@@ -21,6 +21,7 @@ import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -29,6 +30,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.shoppingbasket.annotation.AdminUser;
+import org.shoppingbasket.entity.UserEntity;
 import org.shoppingbasket.service.SystemManagementService;
 
 /**
@@ -41,6 +44,10 @@ public class MailerBean {
 
     @Resource(name = "mail/shoppingBasket")
     private Session session;
+    
+    @Inject
+    @AdminUser
+    private UserEntity admin;
     
     @EJB
     SystemManagementService systemService;
@@ -58,6 +65,8 @@ public class MailerBean {
             message.setFrom();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(emailAddr, false));
+            message.setRecipients(Message.RecipientType.CC,
+                    InternetAddress.parse(admin.getUemail(), false));
             message.setSubject(subject);
             message.setHeader("X-Mailer", "JavaMail");
             Date timeStamp = new Date();

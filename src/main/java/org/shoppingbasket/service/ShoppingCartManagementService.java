@@ -73,7 +73,7 @@ public class ShoppingCartManagementService {
         basket.setUpdateDate(new Date());
         for (Item item : items) {
             item.setIbasket(basket);
-            item.setIquantity(item.getIquantity()-1);
+            item.setIquantity(item.getIquantity() - 1);
             itemDAO.update(item);
         }
         basket.setBitems(items);
@@ -87,9 +87,9 @@ public class ShoppingCartManagementService {
     }
 
     public List<Item> loadAllItems() {
-         Map<String, Long> params = new HashMap<>();
+        Map<String, Long> params = new HashMap<>();
         params.put("qunatity", 0l);
-        List<Item> items = itemDAO.findWithNamedQuery("Item.All",params);
+        List<Item> items = itemDAO.findWithNamedQuery("Item.All", params);
         return items;
     }
 
@@ -104,7 +104,7 @@ public class ShoppingCartManagementService {
     public Double getbasketCost(IBasket basket) {
         return ItemsCostFinder.findCost(basket.getBitems());
     }
-    
+
     public Double getItemCost(Item item) {
         Set<Item> items = new HashSet<>();
         items.add(item);
@@ -112,14 +112,13 @@ public class ShoppingCartManagementService {
     }
 
     private Double getbasketCosts(IBasket basket) {
-        
+
         //        List<IAsset> allAsset = new ArrayList<>();
 //        basket.getBitems().parallelStream()
 //                .forEach((item) -> item.getIassets().stream()
 //                        .forEach((assets) -> allAsset.addAll(assets.getAssets())));
 //        return allAsset.parallelStream().mapToDouble((asset) -> asset.getIcost().getIamount() 
 //                    - (asset.getIcost().getIamount() * asset.getIcost().getIdiscount()) / 100).sum();
-
         //        return (Double) elProcessor.eval("items.parallelStream()"
 //                + ".map(ITemAssetsFinder::findItemsAssets)"
 //                + ".reduce(null,null).parallelStream().map((asset)-> asset.getIcost()"
